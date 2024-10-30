@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  postgresdb:
+    container_name: postgres-container
+    image: postgres:16.2
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-pgi}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-pgi}
+      POSTGRES_DB: ${POSTGRES_DB:-docdatabase}
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.dl/schema.sql
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-pgi}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  pgadmin:
+    container_name: pgadmin-container
+    image: dpage/pgadmin4:8.5
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-pgi@planetgroupint.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-pgi}
+      PGADMIN_DEFAULT_ADDRESS: 6000
+      PGADMIN_LISTEN_PORT: 6000
+    expose:
+      - "6000"
+    ports:
+      - "7000:6000"
+    volumes:
+      - pgadmin-volume:/var/lib/pgadmin
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  pgadmin-volume:
+#    driver: local
+#      driver_opts:
+#        type: 'none'
+#        o: 'bind'
+#        device: '/host/path'
+#      labels:
+#        com.pgi.description: "This is a volume for pgAdmin data"
+#        com.pgi.department: "Engineering"
+#      external: false
+#      mountpoint: "/var/lib/docker/volumes/docker_pgadmin-volume/_data"
+#      createdat: "2024-04-08T12:00:00Z"
+#      scope: "local"
+  postgres-volume:
+#    driver: local
+#      driver_opts:
+#        type: 'none'
+#        o: 'bind'
+#        device: '/host/path'
+#      labels:
+#        com.pgi.description: "This is a volume for PostgreSQL data"
+#        com.pgi.department: "Engineering"
+#      external: false
+#      mountpoint: "/var/lib/docker/volumes/docker_postgres-volume/_data"
+#      createdat: "2024-04-08T12:00:00Z"
+#      scope: "local"
