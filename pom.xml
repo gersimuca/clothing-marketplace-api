@@ -16,7 +16,7 @@
     <description>Clothing Marketplace API</description>
     <properties>
         <!-- Application -->
-        <java.version>21</java.version>
+        <java.version>17</java.version>
         <!-- Dependencies -->
         <springdoc-openapi-webmvc-ui.version>2.6.0</springdoc-openapi-webmvc-ui.version>
         <swagger.annotations.version>2.2.23</swagger.annotations.version>
@@ -75,6 +75,7 @@
 
         <!-- SSO -->
         <!-- OAuth 2.0 -->
+        <!-- Security -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-jose</artifactId>
@@ -83,20 +84,27 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-resource-server</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.11.5</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.11.5</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.11.5</version>
+        </dependency>
 
         <!-- Database Dependencies-->
         <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-sqlserver</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>mssql-jdbc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.microsoft.azure</groupId>
-            <artifactId>msal4j</artifactId>
-            <version>${msal4j.version}</version>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
@@ -116,6 +124,11 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
             <version>1.12.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20230227</version>
         </dependency>
 
         <!-- Open API -->

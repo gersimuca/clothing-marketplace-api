@@ -1,18 +1,20 @@
 package com.gersimuca.cm.configuration;
 
+import com.gersimuca.cm.common.Role;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
-import org.springframework.boot.actuate.health.HealthEndpoint;
-import org.springframework.boot.actuate.info.InfoEndpoint;
-import org.springframework.boot.actuate.metrics.MetricsEndpoint;
-import org.springframework.boot.actuate.metrics.export.prometheus.PrometheusScrapeEndpoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import static org.springframework.http.HttpMethod.*;
 
 @Configuration
 @EnableWebSecurity
@@ -20,42 +22,30 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-  private final JwtAuthenticationConverter jwtAuthenticationConverter;
-
-  private static final String[] ALLOW_LIST = {
-    "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/resources/**"
-  };
+  private final JwtAuthenticationFilter jwtAuthenticationFilter;
+  private final AuthenticationProvider authenticationProvider;
+  private final LogoutHandler logoutHandler;
 
   @Bean
-  protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    var tokenResolver = new DefaultBearerTokenResolver();
-    tokenResolver.setAllowUriQueryParameter(true);
-
-    http.authorizeHttpRequests(
-            request ->
-                request
-                    .requestMatchers(ALLOW_LIST)
-                    .permitAll()
-                    .requestMatchers(getPublicEndpoints())
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated())
-        .oauth2ResourceServer(
-            oauthConfigurer ->
-                oauthConfigurer
-                    .bearerTokenResolver(tokenResolver)
-                    .jwt(
-                        jwtConfigurer ->
-                            jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter)));
-
-    return http.build();
-  }
-
-  private EndpointRequest.EndpointRequestMatcher getPublicEndpoints() {
-    return EndpointRequest.to(
-        HealthEndpoint.class,
-        PrometheusScrapeEndpoint.class,
-        MetricsEndpoint.class,
-        InfoEndpoint.class);
+  public SecurityFilterChain jwtFilterChain(HttpSecurity http) throws Exception {
+    return http
+            .csrf(AbstractHttpConfigurer::disable)
+            .authorizeHttpRequests(req ->
+                    req
+                            .requestMatchers(POST, "/create", "/login").permitAll()
+                            .requestMatchers("clothing/**").hasAuthority(Role.CLIENT.name())
+                            .anyRequest()
+                            .authenticated()
+            )
+            .sessionManagement((session) -> session
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authenticationProvider(authenticationProvider)
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            .logout(logout -> logout
+                    .logoutUrl("/api/v1/logout")
+                    .addLogoutHandler(logoutHandler)
+                    .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+            )
+            .build();
   }
 }

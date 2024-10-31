@@ -39,11 +39,11 @@ Before using this configuration, ensure that you have Docker and Docker Compose 
 - **Image**: PostgreSQL version 16.2.
 - **Container Name**: postgrescontainer.
 - **Environment Variables**:
-    - `POSTGRES_USER`: Default value is `pgi`.
-    - `POSTGRES_PASSWORD`: Default value is `pgi`.
-    - `POSTGRES_DB`: Default value is `docdatabase`.
+    - `POSTGRES_USER`: Default value is `gersi`.
+    - `POSTGRES_PASSWORD`: Default value is `gersi`.
+    - `POSTGRES_DB`: Default value is `clothing_marketplace`.
 - **Exposed Port**: 5432 (for PostgreSQL connections).
-- **Volumes**: Mounts a volume for persisting PostgreSQL data and initializes the database with `schema.sql`.
+- **Volumes**: Mounts a volume for persisting PostgreSQL data and initializes the database with `schema.sql` if available.
 - **Health Check**: Verifies the availability of the PostgreSQL server using `pg_isready`.
 
 ### pgAdmin Service (`pgadmin`)
@@ -51,8 +51,8 @@ Before using this configuration, ensure that you have Docker and Docker Compose 
 - **Image**: pgAdmin 4 version 8.5.
 - **Container Name**: pgadmincontainer.
 - **Environment Variables**:
-    - `PGADMIN_DEFAULT_EMAIL`: Default value is `pgi@planetgroupint.com`.
-    - `PGADMIN_DEFAULT_PASSWORD`: Default value is `pgi`.
+    - `PGADMIN_DEFAULT_EMAIL`: Default value is `gersimuca@aol.com`.
+    - `PGADMIN_DEFAULT_PASSWORD`: Default value is `gersimuca`.
 - **Exposed Port**: 6000 (for pgAdmin web interface).
 - **Volumes**: Mounts a volume for persisting pgAdmin data.
 - **Networks**: Connects to the `backend` network for communication with other services.
