@@ -1,9 +1,8 @@
 package com.gersimuca.cm.common;
 
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 public enum Role {
   CLIENT("CLIENT"),
@@ -18,7 +17,7 @@ public enum Role {
   public List<SimpleGrantedAuthority> getAuthorities() {
     List<SimpleGrantedAuthority> authorities = new ArrayList<>();
     authorities.add(
-            new SimpleGrantedAuthority("ROLE_" + this.name())); // Add the current role as an authority
+        new SimpleGrantedAuthority("ROLE_" + this.name())); // Add the current role as an authority
     return authorities;
   }
 

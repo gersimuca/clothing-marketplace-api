@@ -1,6 +1,5 @@
 package com.gersimuca.cm.feature.user;
 
-import com.gersimuca.cm.common.AuditedEntity;
 import com.gersimuca.cm.common.Role;
 import com.gersimuca.cm.feature.token.TokenEntity;
 import jakarta.persistence.*;

@@ -9,12 +9,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserCreateRequest {
-        @NotEmpty(message = "Username cannot be empty or null")
-        private String username;
+  @NotEmpty(message = "Username cannot be empty or null")
+  private String username;
 
-        @NotEmpty(message = "Password cannot be empty or null")
-        private String password;
+  @NotEmpty(message = "Password cannot be empty or null")
+  private String password;
 
-        @NotEmpty(message = "Full Name cannot be empty or null")
-        private String fullname;
+  @NotEmpty(message = "Full Name cannot be empty or null")
+  private String fullname;
 }

@@ -2,7 +2,6 @@ package com.gersimuca.cm.configuration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.annotation.Generated;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -10,11 +9,6 @@ import lombok.Setter;
 
 /** General error response model. */
 @Setter
-@Schema(name = "ApiError", description = "General error response model.")
-@Generated(
-    value = "org.openapitools.codegen.languages.SpringCodegen",
-    date = "2024-10-14T10:14:34.998451800+02:00[Europe/Berlin]",
-    comments = "Generator version: 7.8.0")
 public class ApiError implements Serializable {
 
   private static final long serialVersionUID = 1L;
