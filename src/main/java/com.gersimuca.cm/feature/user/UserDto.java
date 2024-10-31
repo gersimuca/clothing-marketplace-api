@@ -7,10 +7,10 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
-public class UserDto{
-    private Long id;
-    private String username;
-    private String fullname;
-    private String address;
-    private String token;
+public class UserDto {
+  private Long id;
+  private String username;
+  private String fullname;
+  private String address;
+  private String token;
 }

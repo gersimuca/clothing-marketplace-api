@@ -4,14 +4,11 @@ import com.gersimuca.cm.common.AuditedEntity;
 import com.gersimuca.cm.common.Role;
 import com.gersimuca.cm.feature.token.TokenEntity;
 import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.DynamicInsert;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
 import java.util.List;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "users")
@@ -20,7 +17,7 @@ import java.util.List;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserEntity extends AuditedEntity implements UserDetails {
+public class UserEntity implements UserDetails {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -42,7 +39,6 @@ public class UserEntity extends AuditedEntity implements UserDetails {
 
   @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
   private List<TokenEntity> tokens;
-
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -27,8 +27,12 @@ public class AuditorProvider implements AuditorAware<UserEntity> {
     if (authentication == null) {
       return userRepository.findByUsername("System");
     }
+
+    // Early Exit
+    return userRepository.findByUsername("System");
+
 //    var username = getUsername(authentication);
-    return userRepository.findByUsername("SYSTEM");
+//    return userRepository.findByUsername(username);
   }
 
   private String getUsername(final Authentication authentication) {

@@ -6,7 +6,7 @@ spring:
     password: ${POSGRESQL_PASSWORD:gersi}
   jpa:
     open-in-view: false
-    database-platform: org.hibernate.dialect.PostgreSQLInnoDBDialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     generate-ddl: true
     show-sql: false
     hibernate:

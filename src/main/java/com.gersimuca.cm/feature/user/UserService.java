@@ -9,6 +9,7 @@ import com.gersimuca.cm.feature.token.TokenEntity;
 import com.gersimuca.cm.feature.token.TokenRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -17,12 +18,15 @@ import org.springframework.stereotype.Service;
 public class UserService {
   private final UserMapper mapper;
   private final UserRepository userRepository;
-    private final JwtService jwtService;
-    private final TokenRepository tokenRepository;
+  private final JwtService jwtService;
+  private final TokenRepository tokenRepository;
+  private final PasswordEncoder passwordEncoder;
 
   public UserDto createUser(final UserCreateRequest userCreateRequest) {
 
-    final String username = userCreateRequest.username();
+    final String username = userCreateRequest.getUsername();
+    final String password = userCreateRequest.getPassword();
+    final String fullName = userCreateRequest.getFullname();
 
     if (existsByUsername(username)) {
       throw new EntityAlreadyExistsException(UserEntity.class, username);
@@ -30,9 +34,10 @@ public class UserService {
 
     UserEntity userEntity =
         UserEntity.builder()
-            .username(userCreateRequest.username())
-            .password(userCreateRequest.password())
-                .role(Role.CLIENT)
+            .username(username)
+            .password(passwordEncoder.encode(password))
+                .fullName(fullName)
+            .role(Role.CLIENT)
             .build();
 
     userEntity = userRepository.save(userEntity);
@@ -41,7 +46,8 @@ public class UserService {
 
     String jwtToken = jwtService.generateToken(userEntity);
 
-    TokenEntity token = TokenEntity.builder()
+    TokenEntity token =
+        TokenEntity.builder()
             .user(userEntity)
             .token(jwtToken)
             .revoked(false)
@@ -54,12 +60,12 @@ public class UserService {
     return mapper.mapToDto(userEntity);
   }
 
-  public UserDto getUser(final UserLoginRequest userLoginRequest){
+  public UserDto getUser(final UserLoginRequest userLoginRequest) {
     final String username = userLoginRequest.username();
     final UserEntity userEntity =
-            userRepository
-                    .findByUsername(username)
-                    .orElseThrow(() -> new EntityNotFoundException(UserEntity.class, username));
+        userRepository
+            .findByUsername(username)
+            .orElseThrow(() -> new EntityNotFoundException(UserEntity.class, username));
     return mapper.mapToDto(userEntity);
   }
 
