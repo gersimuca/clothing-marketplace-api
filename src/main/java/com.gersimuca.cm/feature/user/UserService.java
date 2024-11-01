@@ -48,7 +48,7 @@ public class UserService {
             .password(passwordEncoder.encode(password))
             .fullName(fullName)
             .role(Role.CLIENT)
-                .address(address)
+            .address(address)
             .build();
 
     userEntity = userRepository.save(userEntity);
@@ -82,7 +82,6 @@ public class UserService {
 
     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
-
     final UserEntity userEntity =
         userRepository
             .findByUsername(username)
@@ -91,7 +90,8 @@ public class UserService {
     revokeAllUserToken(validUserToken);
     tokenRepository.saveAll(validUserToken);
 
-    LoggerUtil.info(log, "User {} revoking all previews tokens {}", userEntity.getId(), validUserToken.size());
+    LoggerUtil.info(
+        log, "User {} revoking all previews tokens {}", userEntity.getId(), validUserToken.size());
 
     String jwtToken = jwtService.generateToken(userEntity);
     final TokenEntity token =
@@ -111,7 +111,7 @@ public class UserService {
     return userDto;
   }
 
-  private boolean existsByUsername(String username) {
+  public boolean existsByUsername(String username) {
     return userRepository.existsByUsername(username);
   }
 

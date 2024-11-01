@@ -32,7 +32,8 @@ public class SecurityConfig {
     return http.csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(
             req ->
-                req.requestMatchers(POST, "/create", "/login").permitAll()
+                req.requestMatchers(POST, "/create", "/login")
+                    .permitAll()
                     .requestMatchers("clothing/**")
                     .hasAuthority(Role.CLIENT.name())
                     .anyRequest()
