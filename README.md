@@ -64,7 +64,7 @@ Modify these values as necessary to fit your environment.
 
 ## Running the Application
 
-To run the application with Docker Compose, execute the following command in the root directory of the project:
+To run the application with Docker Compose, execute the following command in the docker directory of the project:
 
 ```bash
 docker-compose up
