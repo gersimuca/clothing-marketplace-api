@@ -79,9 +79,6 @@ This project is a REST API for a second-hand clothes marketplace, allowing users
     - Description: Retrieves a list of all published garments. Supports query parameters for filtering by `type`, `size`, and `price`.
     - Example: `/clothes?type=shirt&size=M`
 
-- **GET /clothes/{id}**
-    - Description: Retrieves details for a specific garment by ID.
-
 ### Authenticated Endpoints (JWT Required)
 
 - **POST /clothes**
@@ -122,5 +119,3 @@ This project is a REST API for a second-hand clothes marketplace, allowing users
 ## License
 
 This project is licensed under the MIT License.
-
----

@@ -1,0 +1,16 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        show_sql: false
+  datasource:
+    driver-class-name: org.h2.Driver
+    password:
+    username: sa
+    url: jdbc:h2:mem:test;MODE=MSSQLServer;INIT=CREATE DOMAIN IF NOT EXISTS datetimeoffset AS TIMESTAMP WITH TIME ZONE
+  sql:
+    init:
+      platform: org.hibernate.dialect.SQLServerDialect
+
+cors:
+  allowed-origins: http://localhost:4200,http://example.com
