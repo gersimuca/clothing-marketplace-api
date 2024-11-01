@@ -1,7 +1,3 @@
-Here's a `README.md` template for your **Second-Hand Clothes Marketplace API**. This file includes installation, setup, usage instructions, API endpoint descriptions, and other essential information.
-
----
-
 # Second-Hand Clothes Marketplace API
 
 This project is a REST API for a second-hand clothes marketplace, allowing users to publish, sell, and manage second-hand garments. Built with Java and Spring Boot, it supports authentication, publishing, and managing garment listings with JWT-secured endpoints.
