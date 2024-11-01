@@ -96,7 +96,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ---
 
-Thank you for using the Clothing Marketplace API! If you have any questions or issues, please feel free to open an issue in the repository.
+
 ```
 
 ### Notes:
