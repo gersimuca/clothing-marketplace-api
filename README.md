@@ -1,117 +1,107 @@
-# Second-Hand Clothes Marketplace API
+Certainly! Below is a sample `README.md` file for setting up your **Clothing Marketplace API** project. This document outlines the necessary steps to clone, build, and run the application, as well as some relevant configurations.
 
-This project is a REST API for a second-hand clothes marketplace, allowing users to publish, sell, and manage second-hand garments. Built with Java and Spring Boot, it supports authentication, publishing, and managing garment listings with JWT-secured endpoints.
+```markdown
+# Clothing Marketplace API
+
+Welcome to the Clothing Marketplace API! This project is a Spring Boot application that provides a RESTful API for managing clothing items in a marketplace.
 
 ## Table of Contents
-1. [Features](#features)
-2. [Technologies](#technologies)
-3. [Installation](#installation)
-4. [Getting Started](#getting-started)
-5. [API Endpoints](#api-endpoints)
-6. [Running Tests](#running-tests)
-7. [License](#license)
 
----
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Running the Application](#running-the-application)
+- [Running Tests](#running-tests)
+- [API Documentation](#api-documentation)
+- [License](#license)
 
-## Features
+## Prerequisites
 
-- User authentication with JWT
-- Custom user model with publisher information (id, full name, address)
-- CRUD operations for garment listings
-- Query and filter garments by type, size, and price
-- Secure publishing endpoints accessible only to authenticated users
-- Users can only manage (update/unpublish) their own garments
+Before you begin, ensure you have met the following requirements:
 
-## Technologies
-
-- **Java** (v21 or later)
-- **Spring Boot** (v3.3.3+)
-- **Spring Data JPA** (for database interactions)
-- **Spring Security + JWT** (for authentication)
-- **Maven** (for dependency management and build)
+- **Java 17**: The application requires Java Development Kit (JDK) 17.
+- **Maven**: Make sure you have Apache Maven installed to manage dependencies and build the project.
+- **Docker**: For running PostgreSQL and pgAdmin in containers, ensure you have Docker installed on your machine.
 
 ## Installation
 
 1. **Clone the repository**:
-    ```bash
-    git clone https://github.com/gersimuca/second-hand-clothes-api.git
-    cd clothing-marketplace-api
-    ```
+   ```bash
+   git clone git@github.com:gersimuca/clothing-marketplace-api.git
+   cd clothing-marketplace-api
+   ```
 
-2. **Configure Database**:
-   Update your database settings in `src/main/resources/application.properties`:
-    ```properties
-    spring.datasource.url=jdbc:mysql://localhost:3306/second_hand_clothes
-    spring.datasource.username=your_db_username
-    spring.datasource.password=your_db_password
-    ```
+2. **Set up environment variables**:
+   Create a `.env` file in the docker directory of the project to set up your environment variables for the PostgreSQL database. Here is a sample:
 
-3. **Install Dependencies**:
-    ```bash
-    mvn install
-    ```
+   ```bash
+   POSTGRES_USER=gersi
+   POSTGRES_PASSWORD=gersi
+   POSTGRES_DB=clothing_marketplace
+   JWT_SECRET=your_secret_key
+   ```
 
-## Getting Started
+3. **Build the project**:
+   Use Maven to build the project:
+   ```bash
+   mvn clean install
+   ```
 
-1. **Run the Application**:
-    ```bash
-    mvn spring-boot:run
-    ```
+## Configuration
 
-2. **Access API**:
-   The API will be available at `http://localhost:8080`.
+This project uses a Docker Compose file to set up a PostgreSQL database and pgAdmin. Ensure the following configurations are set in the `docker-compose.yml` file:
 
-## API Endpoints
+- **PostgreSQL**:
+    - **User**: `${POSTGRES_USER:-gersi}`
+    - **Password**: `${POSTGRES_PASSWORD:-gersi}`
+    - **Database**: `${POSTGRES_DB:-clothing_marketplace}`
 
-### Authentication
-- **POST /auth/login**
-    - Description: Authenticates a user and returns a JWT token.
-    - Request Body: `{ "username": "user", "password": "pass" }`
-    - Response: `{ "token": "jwt-token" }`
+- **pgAdmin**:
+    - **Email**: `${PGADMIN_EMAIL:-gersimuca@aol.com}`
+    - **Password**: `${PGADMIN_PASSWORD:-gersimuca}`
 
-### Public Endpoints (No Authentication Required)
+Modify these values as necessary to fit your environment.
 
-- **GET /clothes**
-    - Description: Retrieves a list of all published garments. Supports query parameters for filtering by `type`, `size`, and `price`.
-    - Example: `/clothes?type=shirt&size=M`
+## Running the Application
 
-### Authenticated Endpoints (JWT Required)
+To run the application with Docker Compose, execute the following command in the root directory of the project:
 
-- **POST /clothes**
-    - Description: Allows an authenticated user to publish a new garment listing.
-    - Request Body:
-      ```json
-      {
-        "type": "shirt",
-        "description": "A cozy flannel shirt",
-        "size": "M",
-        "price": 20.00
-      }
-      ```
-    - Response: `{ "id": 1, "type": "shirt", ... }`
+```bash
+docker-compose up
+```
 
-- **PUT /clothes/{id}**
-    - Description: Allows an authenticated user to update an existing garment listing they own.
-    - Request Body:
-      ```json
-      {
-        "type": "jacket",
-        "description": "A winter coat",
-        "size": "L",
-        "price": 50.00
-      }
-      ```
+This command will start the PostgreSQL database and pgAdmin. Once the services are up and running, you can start the Spring Boot application.
 
-- **DELETE /clothes/{id}**
-    - Description: Allows an authenticated user to unpublish (delete) a garment listing they own.
+In another terminal, run:
+
+```bash
+mvn spring-boot:run
+```
+
+Your application will be running at `http://localhost:8080`.
 
 ## Running Tests
 
-1. **Run all tests** (if provided):
-    ```bash
-    mvn test
-    ```
+To run the tests included in the project, execute:
+
+```bash
+mvn test
+```
+
+This will execute all the unit and integration tests defined in the project.
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+Thank you for using the Clothing Marketplace API! If you have any questions or issues, please feel free to open an issue in the repository.
+```
+
+### Notes:
+
+- Ensure you replace `your_secret_key` with a secure JWT secret key in file.
+- The Docker commands assume you are running the services in a Unix-like environment. Adjust accordingly for Windows.
+- You can modify the structure and content of the `README.md` based on your project needs and style preferences.
+- Make sure to create a `LICENSE` file in your repository if you mention licensing in the README.
