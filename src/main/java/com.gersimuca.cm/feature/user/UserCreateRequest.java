@@ -17,4 +17,7 @@ public class UserCreateRequest {
 
   @NotEmpty(message = "Full Name cannot be empty or null")
   private String fullname;
+
+  @NotEmpty(message = "Address Name cannot be empty or null")
+  private String address;
 }

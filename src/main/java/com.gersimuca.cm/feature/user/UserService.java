@@ -36,6 +36,7 @@ public class UserService {
     final String username = userCreateRequest.getUsername();
     final String password = userCreateRequest.getPassword();
     final String fullName = userCreateRequest.getFullname();
+    final String address = userCreateRequest.getAddress();
 
     if (existsByUsername(username)) {
       throw new EntityAlreadyExistsException(UserEntity.class, username);
@@ -47,6 +48,7 @@ public class UserService {
             .password(passwordEncoder.encode(password))
             .fullName(fullName)
             .role(Role.CLIENT)
+                .address(address)
             .build();
 
     userEntity = userRepository.save(userEntity);

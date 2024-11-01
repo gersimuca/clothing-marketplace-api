@@ -17,7 +17,7 @@ public enum Role {
   public List<SimpleGrantedAuthority> getAuthorities() {
     List<SimpleGrantedAuthority> authorities = new ArrayList<>();
     authorities.add(
-        new SimpleGrantedAuthority("ROLE_" + this.name())); // Add the current role as an authority
+        new SimpleGrantedAuthority("ROLE_" + this.name()));
     return authorities;
   }
 

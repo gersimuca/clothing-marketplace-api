@@ -1,6 +1,7 @@
 package com.gersimuca.cm.feature.user;
 
 import com.gersimuca.cm.common.Role;
+import com.gersimuca.cm.feature.grament.GarmentEntity;
 import com.gersimuca.cm.feature.token.TokenEntity;
 import jakarta.persistence.*;
 import java.util.Collection;
@@ -38,6 +39,9 @@ public class UserEntity implements UserDetails {
 
   @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
   private List<TokenEntity> tokens;
+
+  @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
+  private List<GarmentEntity> garments;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
